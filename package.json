@@ -1,0 +1,24 @@
+{
+  "name": "vue-study",
+  "version": "1.0.0",
+  "description": "vue源码学习笔记",
+  "main": "setget.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenjiangsong/vue-study.git"
+  },
+  "keywords": [
+    "vue-study"
+  ],
+  "author": "cjs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chenjiangsong/vue-study/issues"
+  },
+  "homepage": "https://github.com/chenjiangsong/vue-study#readme"
+}
