@@ -1,5 +1,14 @@
-import Vue from './main'
+import Vue from './_main'
 
-new Vue({
-	id: 'app'
+const vm = new Vue({
+	id: 'app',
+    data: {
+        msg: 'hello',
+        show: true
+    }
 })
+
+setTimeout(() => {
+    vm.msg = 'heheda'
+    vm.show = false
+}, 2000)
