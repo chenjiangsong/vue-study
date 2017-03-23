@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else {
+		var a = factory();
+		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
+	}
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -72,8 +82,11 @@
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
-	show() {
-		console.log('show')
+	text(el, value) {
+		el.textContent = value || ''
+	},
+	show(el, value) {
+		el.style.display = value ? '' : 'none'
 	}
 });
 
@@ -85,8 +98,25 @@
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__directive__ = __webpack_require__(0);
 
+const prefix = 'v',
+			selector = Object.keys(__WEBPACK_IMPORTED_MODULE_0__directive__["a" /* default */]).map(function(d) {
+				return `[v-${d}]`
+			}).join()
 
-__WEBPACK_IMPORTED_MODULE_0__directive__["a" /* default */].show()
+class Vue {
+	construct(opts) {
+		const self = this,
+					root = this.el = document.getElementById(opts.id),
+					els = root.querySelectorAll(selector)
+
+		console.log(els)
+
+	}
+}
+/* harmony export (immutable) */ __webpack_exports__["default"] = Vue;
+
+
 
 /***/ })
 /******/ ]);
+});

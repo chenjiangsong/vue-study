@@ -1,9 +1,19 @@
 var path = require('path')
 
 module.exports = {
-	entry: './src/main.js',
+	watch: true,
+	entry: './src/index.js',
 	output: {
-		filename: 'seed.js',
+		filename: 'bundle.js',
 		path: path.resolve('./dist')
+	},
+	devtool: 'eval-source-map',
+	module: {
+		rules: [
+			{
+				test: /\.js[x]$/,
+				loader: 'babel-loader'
+			}
+		]
 	}
 }
