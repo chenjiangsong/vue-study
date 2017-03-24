@@ -26,7 +26,9 @@ export default class Vue {
         })
         return self.data
     }
-
+    /*
+        compiler
+     */
     processNode(el) {
         const self = this
         const attrs = Array.prototype.map.call(el.attributes, function(attr) {
@@ -39,22 +41,28 @@ export default class Vue {
             self.bindDirective(attr, el)
         })
     }
-
+    /*
+        watcher
+        建立data与指令的关联关系，
+        以data为主键，把所有绑定了该data的directive都关联到该data下
+     */
     bindDirective(attr, el) {
         const self = this
-        // console.log(attr)
-        // console.log(el)
         const key = attr.value
-        // const value = attr.value
         const binding = self.bindings[key] = {}
         binding.el = el
         binding.attr = attr.name
         binding.update = map[attr.name]
-        self.bind(binding, key)
+        if (!self.data.hasOwnProperty(key)) {
+            self.bind(binding, key)
+        }
     }
-
+    /*
+        observer
+     */
     bind(binding, value) {
         const self = this
+        console.log(binding)
         Object.defineProperty(self.data, value, {
             set: function(newVal) {
                 binding.update(binding.el, newVal)

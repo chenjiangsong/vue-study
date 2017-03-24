@@ -1,3 +1,5 @@
+
+
 export default {
 	text(el, value) {
 		el.textContent = value || ''
