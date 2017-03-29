@@ -5,16 +5,10 @@
 </head>
 <body>
 	<div id="app">
-		<p>{{msg}}</p>
-		<p>{{msg}}</p>
-		<p>{{msg}}</p>
-		<p>{{what}}</p>
+		<p v-text="msg"></p>
+		<p v-show="show"></p>
+		<p v-text="msg"></p>
 	</div>
-	<script src="./setget.js"></script>
-	<script type="text/javascript">
-		new MiniVue('app', {
-			msg: 'hello'
-		})
-	</script>
+	<script src="./dist/test.js"></script>
 </body>
 </html>

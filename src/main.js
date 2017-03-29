@@ -4,7 +4,7 @@ var prefix      = 'sd',
     selector    = Object.keys(Directives).map(function (d) {
         return '[' + prefix + '-' + d + ']'
     }).join()
-
+    console.log(selector)
 function Seed (opts) {
 
     var self = this,

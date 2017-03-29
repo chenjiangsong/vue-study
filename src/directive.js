@@ -21,7 +21,7 @@ function Directive (def, attr, arg, key) {
     this.attr = attr
     this.arg  = arg
     this.key  = key
-    
+
     var filters = attr.value.match(FILTERS_RE)
     if (filters) {
         this.filters = filters.map(function (filter) {
@@ -55,7 +55,7 @@ module.exports = {
 
     // make sure the directive and value is valid
     parse: function (attr, prefix) {
-        
+        console.log(attr);
         if (attr.name.indexOf(prefix) === -1) return null
 
         var noprefix = attr.name.slice(prefix.length + 1),

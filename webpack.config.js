@@ -2,9 +2,12 @@ var path = require('path')
 
 module.exports = {
 	watch: true,
-	entry: './src/index.js',
+	entry: {
+		bundle: './src/index.js',
+		test: './src/_test.js'
+	},
 	output: {
-		filename: 'bundle.js',
+		filename: '[name].js',
 		path: path.resolve('./dist')
 	},
 	devtool: 'eval-source-map',
