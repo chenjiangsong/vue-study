@@ -1,33 +1,10 @@
-import Seed from './main'
+import Vue from './main'
 
-// var Seed = require('seed')
-var app = Seed.create({
-	id: 'test',
-	// template
-	scope: {
-		'msg.wow': 'wow',
-		hello: 'hello',
-		changeMessage: function () {
-			app.scope['msg.wow'] = 'hola'
-		},
-		remove: function () {
-			app.destroy()
-		},
-		todos: [
-			{
-				title: 'make this shit work',
-				done: false
-			},
-			{
-				title: 'make this shit kinda work',
-				done: true
-			}
-		]
+window.vm = new Vue({
+	id: 'app',
+	data: {
+		msg: 'hello',
+		show: true
 	}
 })
 
-// setTimeout(() => {
-//     vm.msg = 'heheda'
-//     vm.hide = true
-//     // console.log(vm.msg)
-// }, 2000)

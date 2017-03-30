@@ -4,15 +4,11 @@
 	<title></title>
 </head>
 <body>
-	<div id="test" sd-on-click="changeMessage | delegate .button">
-		<p sd-text="msg.wow | capitalize" sd-on-click="remove"></p>
-		<p sd-on-click="remove">11</p>
-		<p sd-text="msg.wow | uppercase" class="button"></p>
-		<p sd-class-red="error" sd-text="hello"></p>
-		<div sd-each="todos">
-			<span sd-text="text"></span>
-		</div>
+	<div id="app">
+		<p v-text="msg" v-show="show" style="11"></p>
+		<p v-show="show">112</p>
+		<p v-text="msg"></p>
 	</div>
-	<script type="text/javascript" src="./dist/bundle.js"></script>
+	<script src="./dist/dev.js"></script>
 </body>
 </html>

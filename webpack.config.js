@@ -3,8 +3,8 @@ var path = require('path')
 module.exports = {
 	watch: true,
 	entry: {
-		bundle: './src/index.js',
-		test: './src/_test.js'
+		bundle: './src_copy/index.js',
+		dev: './src/index.js'
 	},
 	output: {
 		filename: '[name].js',
