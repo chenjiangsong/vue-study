@@ -1,9 +1,9 @@
 const directives = {
-    text(el, value) {
-        el.textContent = value
+    text(value) {
+        this.textContent = value
     },
-    show(el, value) {
-        el.style.display = value ? '' : 'none'
+    show(value) {
+        this.style.display = value ? '' : 'none'
     }
 }
 
@@ -68,8 +68,7 @@ export default class Vue {
                 directives: []
             }
         }
-        directive.update = directives[name]
-        directive.el = el
+        directive.update = directives[name].bind(el)
         binding.directives.push(directive)
 
         if (!this.data.hasOwnProperty(key)) {
@@ -85,7 +84,7 @@ export default class Vue {
             set(newVal) {
                 binding.value = newVal
                 binding.directives.forEach((directive) => {
-                    directive.update(directive.el, newVal)
+                    directive.update(newVal)
                 })
             }
         })
