@@ -3,6 +3,7 @@
  */
 import directives from './directives'
 import observer from './observer'
+import filters from './filters'
 
 const ForEach = Array.prototype.forEach
 const Map = Array.prototype.map
@@ -29,7 +30,7 @@ function getAttributes(el) {
 
 function parseDirective(attr, el) {
 	const { name, value } = attr
-	let dirName, dirArg, key, filter
+	let dirName, dirArg, key, filterName, filter
 	el.removeAttribute(name)
 	if (name.indexOf('v-') === -1) return 
 	const attrArr = name.split('-')
@@ -38,7 +39,8 @@ function parseDirective(attr, el) {
 
 	const valueArr = value.replace(/\s/g, '').split('|')
 	key = valueArr[0]
-	filter = valueArr[1]
+	filterName = valueArr[1]
+	filter = filters[filterName]
 
 	const directive = {
 		el,
@@ -50,13 +52,53 @@ function parseDirective(attr, el) {
 	const parseDirective = directives[dirName]
 
 	if (typeof parseDirective === 'function') {
-		directive.update = parseDirective.bind(el)
+		directive._update = parseDirective.bind(el)
 	} else {
-		directive.update = parseDirective.update
-		console.log(directive.update)
+		directive._update = parseDirective.update
 	}
-	return directive
+	return new Directive(directive)
 
+}
+
+class Directive {
+	constructor(opts) {
+		this.el = opts.el
+		this.dirName = opts.dirName
+		this.dirArg = opts.dirArg
+		this.key = opts.key
+		this.filter = opts.filter
+
+		const parseDirective = directives[this.dirName]
+
+		if (typeof parseDirective === 'function') {
+			this._update = parseDirective
+		} else {
+			this._update = parseDirective.update
+		}
+
+	}
+
+	applyFilter(value) {
+		let ret = value
+	}
+
+	update(value) {
+		if (this.filter) {
+			value = this.filter(value)
+		}
+		this._update(value)
+	}
+
+	// _update(value) {
+	// 	const parseDirective = directives[this.dirName]
+
+	// 	if (typeof parseDirective === 'function') {
+	// 		parseDirective.call(this, value)
+	// 	} else {
+	// 		parseDirective.update.call(this, value)
+	// 	}
+
+	// }
 }
 
 function bindDirective(vue, directive) {

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title></title>
 	<style>
 		.red{
@@ -11,6 +12,7 @@
 <body>
 	<div id="app">
 		<div v-text="msg | uppercase" v-show="show" style="11" v-class="className" v-on-click="log"></div>
+		<p v-text="hehe" v-on-click="pop" v-show="hide"></p>
 		<p v-show="show">112</p>
 		<span v-text="msg"></span>
 		<p v-for="arr">1</p>

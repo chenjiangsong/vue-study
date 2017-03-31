@@ -34,63 +34,63 @@ export default class Vue {
         })
     }
 
-    compileNode() {
-        ForEach.call(this.els, (el) => {
-            const attrs = this.getAttributes(el)
-            attrs.map((attr) => {
-                this.bindDirectives(attr, el)
-            })
-        })
-    }
+    // compileNode() {
+    //     ForEach.call(this.els, (el) => {
+    //         const attrs = this.getAttributes(el)
+    //         attrs.map((attr) => {
+    //             this.bindDirectives(attr, el)
+    //         })
+    //     })
+    // }
 
-    getAttributes(el) {
-        return Map.call(el.attributes, (attr) => {
-            return {
-                name: attr.name,
-                value: attr.value
-            }
-        })
-    }
+    // getAttributes(el) {
+    //     return Map.call(el.attributes, (attr) => {
+    //         return {
+    //             name: attr.name,
+    //             value: attr.value
+    //         }
+    //     })
+    // }
 
-    bindDirectives(attr, el) {
-        if (attr.name.indexOf('v-') === -1) return
+    // bindDirectives(attr, el) {
+    //     if (attr.name.indexOf('v-') === -1) return
 
-        el.removeAttribute(attr.name)
-        const key = attr.value
-        const name = attr.name.slice(2)
-        let binding = this.bindings[key]
-        let directive = {}
-        if (!binding) {
-            this.bindings[key] = binding = {
-                key: key,
-                value: '',
-                directives: []
-            }
-        }
+    //     el.removeAttribute(attr.name)
+    //     const key = attr.value
+    //     const name = attr.name.slice(2)
+    //     let binding = this.bindings[key]
+    //     let directive = {}
+    //     if (!binding) {
+    //         this.bindings[key] = binding = {
+    //             key: key,
+    //             value: '',
+    //             directives: []
+    //         }
+    //     }
 
-        if (!directives[name]) return
+    //     if (!directives[name]) return
 
-        directive.update = directives[name].bind(el)
+    //     directive.update = directives[name].bind(el)
 
-        binding.directives.push(directive)
+    //     binding.directives.push(directive)
 
-        if (!this.data.hasOwnProperty(key)) {
-            this.observer(key, binding)
-        }
-    }
+    //     if (!this.data.hasOwnProperty(key)) {
+    //         this.observer(key, binding)
+    //     }
+    // }
 
-    observer(key, binding) {
-        Object.defineProperty(this.data, key, {
-            get() {
-                return binding.value
-            },
-            set(newVal) {
-                binding.value = newVal
-                binding.directives.forEach((directive) => {
-                    directive.update(newVal)
-                })
-            }
-        })
-    }
+    // observer(key, binding) {
+    //     Object.defineProperty(this.data, key, {
+    //         get() {
+    //             return binding.value
+    //         },
+    //         set(newVal) {
+    //             binding.value = newVal
+    //             binding.directives.forEach((directive) => {
+    //                 directive.update(newVal)
+    //             })
+    //         }
+    //     })
+    // }
 
 }

@@ -1,6 +1,6 @@
 import filters from './filters'
 
-export default function observer(key, vue) {
+export function observer(key, vue) {
 	const binding = vue.bindings[key]
 	Object.defineProperty(vue.data, key, {
 		get() {
@@ -9,14 +9,12 @@ export default function observer(key, vue) {
 		set(newVal) {
 			binding.value = newVal
 			binding.directives.forEach((directive) => {
-				((value) => {
-					const filter = directive.filter
-					if (filter) {
-						value = filters[filter](value)
-					}
-					directive.update(value)
-				})(newVal)
+					directive.update(newVal)
 			})
 		}
 	})
+}
+
+export function observerArray(collection) {
+
 }

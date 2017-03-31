@@ -4,13 +4,13 @@
 
 export default {
 		text(value) {
-        this.textContent = value
+        this.el.textContent = value
     },
     show(value) {
-        this.style.display = value ? '' : 'none'
+        this.el.style.display = value ? '' : 'none'
     },
     class(value) {
-    	this.className = value
+    	this.el.className = value
     },
     on: {
     	update(handler) {
