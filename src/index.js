@@ -1,10 +1,16 @@
 import Vue from './main'
 
-window.vm = new Vue({
+const vm = new Vue({
 	id: 'app',
 	data: {
-		msg: 'hello',
-		show: true
+		msg: 'HEllo',
+		show: true,
+		className: 'red',
+		arr: [1,2,3],
+		log() {
+			vm.data.msg = 'niMbi'
+		}
 	}
 })
 
+window.vm = vm

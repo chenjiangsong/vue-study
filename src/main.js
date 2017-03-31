@@ -1,11 +1,9 @@
-const directives = {
-    text(value) {
-        this.textContent = value
-    },
-    show(value) {
-        this.style.display = value ? '' : 'none'
-    }
-}
+import directives from './directives'
+import {
+    compileNode
+} from './compiler'
+
+import observer from './observer'
 
 const prefix = 'v-'
 
@@ -19,19 +17,19 @@ const Map = Array.prototype.map
 export default class Vue {
 
     constructor(opts) {
+        // bindings为data和directives的映射关系
+        this.bindings = {}
+        this.data = {}
 
         // 获取根节点dom
-        let root = this.root = document.getElementById(opts.id)
+        this.root = document.getElementById(opts.id)
         // 获取root里所有带有预置directives的dom节点
-        let els = this.els = root.querySelectorAll(selector)
-        // bindings为data和directives的映射关系
-        let bindings = this.bindings = {}
-        let data = this.data = {
-
-        }
+        this.els = this.root.querySelectorAll(selector)
+        
         // 解析dom
-        this.compileNode()
-        Object.keys(bindings).forEach((key) => {
+        compileNode(this.els, this)
+        Object.keys(this.bindings).forEach((key) => {
+            observer(key, this)
             this.data[key] = opts.data[key]
         })
     }
@@ -57,6 +55,7 @@ export default class Vue {
     bindDirectives(attr, el) {
         if (attr.name.indexOf('v-') === -1) return
 
+        el.removeAttribute(attr.name)
         const key = attr.value
         const name = attr.name.slice(2)
         let binding = this.bindings[key]
@@ -68,7 +67,11 @@ export default class Vue {
                 directives: []
             }
         }
+
+        if (!directives[name]) return
+
         directive.update = directives[name].bind(el)
+
         binding.directives.push(directive)
 
         if (!this.data.hasOwnProperty(key)) {

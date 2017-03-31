@@ -1,84 +1,72 @@
 /*
-	在指令解析的过程中，可能会遇到这样几个情况：
-	1. 1个标签1个指令
-	2. 1个标签2个指令
-	3. 带有'v-on-click'的指令
+	解析指令
  */
-
-
 import directives from './directives'
-import { observer } from './observer'
+import observer from './observer'
 
-const prefix = 'v'
+const ForEach = Array.prototype.forEach
+const Map = Array.prototype.map
 
-export function queryElements(root) {
-	let dirQuery, els
-
-	root = root || document
-
-	dirQuery = Object.keys(directives).map((directive) => {
-		return `[${prefix}-${directive}]`
-	}).join()
-
-	els = root.querySelectorAll(dirQuery)
-
-	return els
-}
-
-/*
-	解析每个带有'v-'指令的el，得到该el上的每个v-指令
- */
-export function processNode(vue, el) {
-	cloneAttr(el.attributes).map((attr) =>{
-		const directive = compilerDirective(vue, attr)
-		if (directive) {
-			bindDirective(vue, el, directive)
-		}
-	})
-	// console.log(vue.bindings)
-}
-
-function cloneAttr(attributes) {
-	return Array.prototype.map.call(attributes, (attr) => {
-		return {
-			name: attr.name,
-			value: attr.value
-		}
+export function compileNode(els, vue) {
+	ForEach.call(els, (el) => {
+		getAttributes(el).map((attr) => {
+			const directive = parseDirective(attr, el)
+			if (directive) {
+				bindDirective(vue, directive)
+			}
+		})
 	})
 }
 
-function compilerDirective(vue, attr) {
-	let binding, key, update, dirname, noprefix
+function getAttributes(el) {
+	return Map.call(el.attributes, (attr) => {
+      return {
+          name: attr.name,
+          value: attr.value
+      }
+  })
+}
 
-	if (attr.name.indexOf(prefix) === -1) return
+function parseDirective(attr, el) {
+	const { name, value } = attr
+	let dirName, dirArg, key, filter
+	el.removeAttribute(name)
+	if (name.indexOf('v-') === -1) return 
+	const attrArr = name.split('-')
+	dirName = attrArr[1]
+	dirArg = attrArr[2]
 
-	dirname = attr.name.slice(prefix.length + 1)
-	key = attr.value
-	binding = vue.bindings[key]
-	update = directives[dirname]
+	const valueArr = value.replace(/\s/g, '').split('|')
+	key = valueArr[0]
+	filter = valueArr[1]
 
-	return {
-		attr: attr,
-		dirname,
+	const directive = {
+		el,
+		dirName,
+		dirArg,
 		key,
-		update
+		filter
 	}
+	const parseDirective = directives[dirName]
+
+	if (typeof parseDirective === 'function') {
+		directive.update = parseDirective.bind(el)
+	} else {
+		directive.update = parseDirective.update
+		console.log(directive.update)
+	}
+	return directive
+
 }
 
-function bindDirective(vue, el, directive) {
-	const key = directive.key
-	el.removeAttribute(directive.attr.name)
+function bindDirective(vue, directive) {
+	const { key } = directive
 	let binding = vue.bindings[key]
 	if (!binding) {
 		vue.bindings[key] = binding = {
-			key,
+			value:'',
 			directives: []
 		}
 	}
-	directive.el = el
-	binding.value = ''
 	binding.directives.push(directive)
-	if (!vue.data.hasOwnProperty(key)) {
-		observer(vue, binding)
-	}
 }

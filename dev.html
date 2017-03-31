@@ -2,12 +2,18 @@
 <html>
 <head>
 	<title></title>
+	<style>
+		.red{
+			color: red;
+		}
+	</style>
 </head>
 <body>
 	<div id="app">
-		<div v-text="msg" v-show="show" style="11"></div>
+		<div v-text="msg | uppercase" v-show="show" style="11" v-class="className" v-on-click="log"></div>
 		<p v-show="show">112</p>
 		<span v-text="msg"></span>
+		<p v-for="arr">1</p>
 	</div>
 	<script src="./dist/dev.js"></script>
 </body>
