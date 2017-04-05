@@ -3,7 +3,7 @@ import {
     compileNode
 } from './compiler'
 
-import observer from './observer'
+import { observer } from './observer'
 
 const prefix = 'v-'
 
@@ -25,7 +25,7 @@ export default class Vue {
         this.root = document.getElementById(opts.id)
         // 获取root里所有带有预置directives的dom节点
         this.els = this.root.querySelectorAll(selector)
-        
+
         // 解析dom
         compileNode(this.els, this)
         Object.keys(this.bindings).forEach((key) => {

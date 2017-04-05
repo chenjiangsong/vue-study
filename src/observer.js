@@ -16,5 +16,5 @@ export function observer(key, vue) {
 }
 
 export function observerArray(collection) {
-
+	
 }
